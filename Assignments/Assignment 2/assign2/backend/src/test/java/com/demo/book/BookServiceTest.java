@@ -56,26 +56,23 @@ class BookServiceTest {
     @Test
     void create() {
 
-        List <Book> reqBook = TestCreationFactory.listOf(Book.class);
-        when(bookRepository.save(reqBook.get(0))).thenReturn(reqBook.get(0));
+        List <BookDTO> reqBook = TestCreationFactory.listOf(BookDTO.class);
+        when(bookService.create(reqBook.get(0))).thenReturn(reqBook.get(0));
 
-       // BookDTO book = bookMapper.toDto(reqBook.get(0));
-        bookService.create(bookMapper.toDto(reqBook.get(0)));
-
-        Assertions.assertNotNull(bookService.findById(reqBook.get(0).getId()));
+        BookDTO result = bookService.create(reqBook.get(0));
+        Assertions.assertNotNull(result);
     }
 
     @Test
     void update() {
 
-        List <Book> reqBook = TestCreationFactory.listOf(Book.class);
-        when(bookRepository.save(reqBook.get(0))).thenReturn(reqBook.get(0));
+        List <BookDTO> reqBook = TestCreationFactory.listOf(BookDTO.class);
+        when(bookService.create(reqBook.get(0))).thenReturn(reqBook.get(0));
+        when(bookService.edit(reqBook.get(0))).thenReturn(reqBook.get(0));
 
-        BookDTO book = bookMapper.toDto(reqBook.get(0));
-        bookService.edit(book);
-        bookService.create(book);
-
-        Assertions.assertNotNull(bookService.findById(book.getId()));
+        BookDTO res = bookService.create(reqBook.get(0));
+        BookDTO result = bookService.edit(res);
+        Assertions.assertNotNull(result);
     }
 
     @Test

@@ -44,7 +44,7 @@ public class TestCreationFactory {
     private static UserListDTO newUserListDTO() {
         return UserListDTO.builder()
                 .id(randomLong())
-                .name(randomString())
+                .username(randomString())
                 .email(randomEmail())
                 .build();
     }

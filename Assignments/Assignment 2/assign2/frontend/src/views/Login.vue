@@ -87,7 +87,7 @@ export default {
           if (this.$store.getters["auth/isAdmin"]) {
             router.push("/users");
           } else {
-            router.push("/fo");
+            router.push("/books");
           }
         } else {
           alert("Invalid credentials!");

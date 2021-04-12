@@ -50,7 +50,7 @@ class UserServiceIntegrationTest {
 
         for (int i = 0; i < nrUsers; i++) {
             assertEquals(users.get(i).getId(), userMinimalDTOS.get(i).getId());
-            assertEquals(users.get(i).getUsername(), userMinimalDTOS.get(i).getName());
+            assertEquals(users.get(i).getUsername(), userMinimalDTOS.get(i).getUsername());
         }
     }
 
@@ -74,7 +74,7 @@ class UserServiceIntegrationTest {
 
         for (int i = 0; i < nrUsers; i++) {
             assertEquals(users.get(i).getId(), userMinimalDTOS.get(i).getId());
-            assertEquals(users.get(i).getUsername(), userMinimalDTOS.get(i).getName());
+            assertEquals(users.get(i).getUsername(), userMinimalDTOS.get(i).getUsername());
         }
     }
 
@@ -96,7 +96,7 @@ class UserServiceIntegrationTest {
 
         for (int i = 0; i < nrUsers; i++) {
             assertEquals(users.get(i).getId(), userMinimalDTOS.get(i).getId());
-            assertEquals(users.get(i).getUsername(), userMinimalDTOS.get(i).getName());
+            assertEquals(users.get(i).getUsername(), userMinimalDTOS.get(i).getUsername());
         }
     }
 

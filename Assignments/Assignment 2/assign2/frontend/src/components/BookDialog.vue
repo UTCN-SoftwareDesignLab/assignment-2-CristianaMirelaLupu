@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     isNew: function () {
-      return !this.book.id;
+      return !this.book.id
     },
   },
 };

@@ -3,6 +3,7 @@ package com.demo.book;
 import com.demo.book.model.dto.BookDTO;
 import com.demo.book.model.Book;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookService {
 
+    @Autowired
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -44,14 +46,19 @@ public class BookService {
     }
 
     public BookDTO create(BookDTO book) {
-        return bookMapper.toDto(bookRepository.save(
-                bookMapper.fromDto(book)
-        ));
+
+//        Book bookToSave = bookMapper.toBook(book);
+//
+//       bookRepository.save(bookToSave);
+//       return book;
+        return bookMapper.toDto(bookRepository.save(bookMapper.toBook(book)));
     }
 
     public BookDTO edit(BookDTO book) {
         Book actBook = findById(book.getId());
         actBook.setTitle(book.getTitle());
+        actBook.setAuthor(book.getAuthor());
+        actBook.setGenre(book.getGenre());
         actBook.setPrice(book.getPrice());
         actBook.setQuantity(book.getQuantity());
 

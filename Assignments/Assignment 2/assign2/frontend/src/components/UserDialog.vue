@@ -9,7 +9,7 @@
         <v-toolbar color="primary" dark>
           {{ isNew ? "Create user" : "Edit user" }}
         </v-toolbar>
-        <v-form>
+        <v-form >
           <v-text-field v-model="user.username" label="Username" />
           <v-text-field v-model="user.email" label="Email" />
           <v-text-field type="password" v-model="user.password" label="Password" />
@@ -35,15 +35,19 @@ export default {
   },
   methods: {
     persist() {
+      console.log("On click");
       if (this.isNew) {
+        console.log("heiiiii");
         api.users
           .create({
             username: this.user.username,
             email:this.user.email,
             password:this.user.password,
+            roles: ["EMPLOYEE"]
           })
           .then(() => this.$emit("refresh"));
-      } else {
+      }else {
+        console.log("here");
         api.users
           .edit({
             id: this.user.id,
@@ -57,7 +61,8 @@ export default {
   },
   computed: {
     isNew: function () {
-      return !this.user.id;
+      console.log(this.user)
+      return !this.user.id
     },
   },
 };

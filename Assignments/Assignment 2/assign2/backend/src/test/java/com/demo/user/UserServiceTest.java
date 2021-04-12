@@ -23,6 +23,9 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
     private UserMapper userMapper;
 
     @Mock
@@ -31,7 +34,7 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(userRepository, userMapper, encoder);
+        userService = new UserService(userRepository, userMapper, encoder, roleRepository);
         userService.deleteAll();
     }
 

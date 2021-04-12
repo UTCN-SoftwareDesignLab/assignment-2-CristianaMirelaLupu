@@ -20,7 +20,7 @@
     ></v-data-table>
     <UserDialog
         :opened="dialogVisible"
-        :item="selectedUser"
+        :user="selectedUser"
         @refresh="refreshList"
     ></UserDialog>
   </v-card>
@@ -28,7 +28,7 @@
 
 <script>
 import api from "../api";
-import UserDialog from "../components/UserDialog.vue";
+import UserDialog from "../components/UserDialog";
 
 export default {
   name: "UserList",
@@ -42,7 +42,7 @@ export default {
           text: "Username",
           align: "start",
           sortable: false,
-          value: "name",
+          value: "username",
         },
         { text: "Email", value: "email" },
         { text: "Roles", value: "roles" },
@@ -57,6 +57,7 @@ export default {
       this.dialogVisible = true;
     },
     addUser() {
+      console.log(("Add user"))
       this.dialogVisible = true;
     },
     async refreshList() {
@@ -66,8 +67,8 @@ export default {
     },
   },
 
-  async created() {
-    this.users = await api.users.allUsers();
+  created() {
+    this.refreshList();
   },
 };
 </script>
