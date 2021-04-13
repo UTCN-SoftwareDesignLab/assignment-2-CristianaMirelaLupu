@@ -39,8 +39,8 @@ public class BookController {
     public void deleteAll() { bookService.deleteAll(); }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteById(@RequestParam Long id) {
-        bookService.deleteById(id); }
+    public void deleteById(@PathVariable String id) {
+        bookService.deleteById(Long.parseLong(id));}
 
     @GetMapping(UrlMapping.EXPORT_REPORT)
     public String exportReport(@PathVariable ReportType type) throws FileNotFoundException, JRException {

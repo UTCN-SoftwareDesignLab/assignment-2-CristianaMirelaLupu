@@ -1,38 +1,39 @@
 <template>
   <v-card>
     <v-card-title>
-      Books
+      Book Store
       <v-spacer></v-spacer>
-
-      <v-btn @click="addBook">Add Book</v-btn>
-      <v-btn @click="goToUsers">Go to Users</v-btn>
-
-      <v-btn @click="pdfBook">PDF</v-btn>
-      <v-btn @click="csvBook">CSV</v-btn>
+      <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+      ></v-text-field>
 
     </v-card-title>
     <v-data-table
-      :headers="headers"
-      :items="books"
-      :search="search"
-      @click:row="editBook"
+        :headers="headers"
+        :items="books"
+        :search="search"
+        @click:row="sellBook"
     ></v-data-table>
-    <BookDialog
-      :opened="dialogVisible"
-      :book="selectedBook"
-      @refresh="refreshList"
-    ></BookDialog>
+    <BookstoreDialog
+        :opened="dialogVisible"
+        :book="selectedBook"
+        @refresh="refreshList"
+    ></BookstoreDialog>
   </v-card>
 </template>
 
 <script>
 import api from "../api";
-import BookDialog from "../components/BookDialog";
-import router from "@/router";
+import BookstoreDialog from "../components/BookstoreDialog";
+//import router from "@/router";
 
 export default {
-  name: "BookList",
-  components: { BookDialog },
+  name: "BookStore",
+  components: { BookstoreDialog },
   data() {
     return {
       books: [],
@@ -54,24 +55,9 @@ export default {
     };
   },
   methods: {
-    editBook(book) {
+    sellBook(book) {
       this.selectedBook = book;
       this.dialogVisible = true;
-    },
-    addBook() {
-      this.dialogVisible = true;
-    },
-
-    goToUsers() {
-      router.push("/users");
-    },
-
-    pdfBook(){
-      api.books.pdf();
-    },
-
-    csvBook(){
-      api.books.csv();
     },
 
     async refreshList() {

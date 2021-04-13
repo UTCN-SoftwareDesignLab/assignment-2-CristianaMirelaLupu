@@ -1,8 +1,8 @@
 import authHeader, { BASE_URL, HTTP } from "../http";
 
 export default {
-    sell(book) {
-        return HTTP.patch(BASE_URL + "/bookstore", book,{headers: authHeader()}).then(
+    sell(book, amount) {
+        return HTTP.patch(BASE_URL + "/bookstore/" + amount, book,{headers: authHeader()}).then(
             (response) => {
                 return response.data;
             }

@@ -25,11 +25,10 @@ public class BookStoreController {
         return bookService.filter(description);
     }
 
-    @PatchMapping
-    public BookDTO sell(@RequestBody ShoppingDTO shoppingDTO) {
-        if (shoppingDTO.getBookDTO().getQuantity() >= shoppingDTO.getQuantity()) {
-            return bookService.sell(shoppingDTO.getBookDTO(), shoppingDTO.getQuantity());
-        }
-        return shoppingDTO.getBookDTO();
+    @PatchMapping("/{amount}")
+    public BookDTO sell(@RequestBody BookDTO bookDTO, @PathVariable Long amount) {
+
+        return bookService.sell(bookDTO, amount);
+
     }
 }

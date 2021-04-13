@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShoppingDTO {
     BookDTO bookDTO;
-    Long quantity;
+    Long amount;
 }

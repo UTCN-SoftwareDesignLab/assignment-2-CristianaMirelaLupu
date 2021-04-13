@@ -3,19 +3,14 @@
     <v-card-title>
       Users
       <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
+
       <v-btn @click="addUser">Add User</v-btn>
+      <v-btn @click="goToBooks">Go to Books</v-btn>
+
     </v-card-title>
     <v-data-table
       :headers="headers"
       :items="users"
-      :search="search"
       @click:row="editUser"
     ></v-data-table>
     <UserDialog
@@ -29,6 +24,7 @@
 <script>
 import api from "../api";
 import UserDialog from "../components/UserDialog";
+import router from "@/router";
 
 export default {
   name: "UserList",
@@ -56,10 +52,16 @@ export default {
       this.selectedUser = user;
       this.dialogVisible = true;
     },
+
     addUser() {
-      console.log(("Add user"))
+      //console.log(("Add user"))
       this.dialogVisible = true;
     },
+
+    goToBooks() {
+      router.push("/books");
+    },
+
     async refreshList() {
       this.dialogVisible = false;
       this.selectedUser = {};

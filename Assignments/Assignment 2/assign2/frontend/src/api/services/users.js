@@ -22,11 +22,13 @@ export default {
         }
     );
   },
-  delete(user) {
-    return HTTP.delete(BASE_URL + "/user/" + user, { headers: authHeader() }).then(
-        (response) => {
-          return response.data;
-        }
-    );
-  },
+
+    deleteById(id) {
+      console.log("id: " + id)
+        return HTTP.delete(BASE_URL + "/user/" + id , {headers: authHeader()}).then(
+           () => {
+                return true;
+            }
+        );
+    },
 };

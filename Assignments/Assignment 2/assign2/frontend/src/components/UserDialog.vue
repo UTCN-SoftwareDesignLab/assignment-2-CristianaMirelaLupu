@@ -8,6 +8,7 @@
       <v-card>
         <v-toolbar color="primary" dark>
           {{ isNew ? "Create user" : "Edit user" }}
+
         </v-toolbar>
         <v-form >
           <v-text-field v-model="user.username" label="Username" />
@@ -18,6 +19,9 @@
           <v-btn @click="persist">
             {{ isNew ? "Create" : "Save" }}
           </v-btn>
+
+          <v-btn v-if="!isNew" @click="deletion">Delete</v-btn>
+
         </v-card-actions>
       </v-card>
     </template>
@@ -39,26 +43,39 @@ export default {
       if (this.isNew) {
         console.log("heiiiii");
         api.users
-          .create({
-            username: this.user.username,
-            email:this.user.email,
-            password:this.user.password,
-            roles: ["EMPLOYEE"]
-          })
-          .then(() => this.$emit("refresh"));
-      }else {
+            .create({
+              username: this.user.username,
+              email: this.user.email,
+              password: this.user.password,
+              roles: ["EMPLOYEE"]
+            })
+            .then(() => this.$emit("refresh"));
+
+      } else {
         console.log("here");
         api.users
-          .edit({
-            id: this.user.id,
-            username: this.user.username,
-            email:this.user.email,
-            password:this.user.password,
-          })
-          .then(() => this.$emit("refresh"));
+            .edit({
+              id: this.user.id,
+              username: this.user.username,
+              email: this.user.email,
+              password: this.user.password,
+            })
       }
     },
+
+  deletion() {
+      //console.log("heiiiii");
+      //console.log(this.user)
+      api.users.deleteById(this.user.id)
+          .then((response) => {
+            if (response == true)
+             this.$emit("refresh")
+          }
+          );
+
+  }
   },
+
   computed: {
     isNew: function () {
       console.log(this.user)

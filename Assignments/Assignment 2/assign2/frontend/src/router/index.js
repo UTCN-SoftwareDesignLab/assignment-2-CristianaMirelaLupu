@@ -4,6 +4,7 @@ import UserList from "../views/UserList.vue";
 import BookList from "../views/BookList.vue";
 import { auth as store } from "../store/auth.module";
 import Login from "../views/Login";
+import BookStore from "@/views/BookStore";
 
 Vue.use(VueRouter);
 
@@ -21,7 +22,7 @@ const routes = [
       if (store.getters.isAdmin) {
         next();
       } else {
-        next({ name: "Book" }); //send to bookstore!!!!!
+        next({ name: "Book" });
       }
     },
   },
@@ -36,6 +37,18 @@ const routes = [
         next({ name: "Home" });
       }
     },
+  },
+  {
+    path: "/bookstore",
+    name: "Bookstore",
+    component: BookStore,
+    beforeEnter: (to, from, next) => {
+      if (store.state.status.loggedIn) {
+        next();
+      } else {
+        next({ name: "Bookstore" });
+      }
+   },
   },
   {
     path: "/about",

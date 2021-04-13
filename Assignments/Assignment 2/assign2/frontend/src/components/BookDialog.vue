@@ -20,6 +20,9 @@
           <v-btn @click="persist">
             {{ isNew ? "Create" : "Save" }}
           </v-btn>
+
+          <v-btn v-if="!isNew" @click="deletion">Delete</v-btn>
+
         </v-card-actions>
       </v-card>
     </template>
@@ -60,7 +63,20 @@ export default {
           .then(() => this.$emit("refresh"));
       }
     },
+
+    deletion() {
+      //console.log("heiiiii");
+      //console.log(this.user)
+      api.books.deleteById(this.book.id)
+          .then((response) => {
+                if (response == true)
+                  this.$emit("refresh")
+              }
+          );
+
+    }
   },
+
   computed: {
     isNew: function () {
       return !this.book.id
