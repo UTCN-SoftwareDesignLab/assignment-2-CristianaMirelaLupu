@@ -7,6 +7,7 @@ import com.demo.bookstore.model.dto.ShoppingDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -17,15 +18,12 @@ public class BookStoreController {
     private final BookService bookService;
 
     @GetMapping
-    public List<BookDTO> search (@RequestParam String description) {
+    public List<BookDTO> search (@RequestParam @NotNull String description) {
 
-        if (description == null){
-            bookService.findAll();
-        }
         return bookService.filter(description);
     }
 
-    @PatchMapping("/{amount}")
+    @PatchMapping(UrlMapping.AMOUNT)
     public BookDTO sell(@RequestBody BookDTO bookDTO, @PathVariable Long amount) {
 
         return bookService.sell(bookDTO, amount);

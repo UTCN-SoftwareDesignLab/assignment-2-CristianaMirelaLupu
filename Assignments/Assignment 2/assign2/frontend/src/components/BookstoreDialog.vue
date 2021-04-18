@@ -39,6 +39,8 @@ export default {
   },
   methods: {
     persist() {
+
+      if(this.amount <= this.book.quantity) {
         api.bookstore
             .sell({
               id: this.book.id,
@@ -47,8 +49,14 @@ export default {
               genre: this.book.genre,
               price: this.book.price,
               quantity: this.book.quantity,
-             }, this.amount)
+            }, this.amount)
             .then(() => this.$emit("refresh"));
+      }
+      else{
+        this.$alert("There are not enough books in the stock!")
+      .then(() => this.$emit("refresh"));
+
+      }
     },
   },
 };

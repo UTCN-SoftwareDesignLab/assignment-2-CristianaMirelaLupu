@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.nio.DoubleBuffer;
 import java.util.List;
@@ -27,34 +28,37 @@ public class CSVReportService implements ReportService {
 
         List<BookDTO> books = bookService.findOutOfStock();
 
-        try (PrintWriter writer = new PrintWriter(new File(FILE_NAME))) {
+
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File(FILE_NAME), false)) ) {
 
             StringBuilder sb = new StringBuilder();
 
-            sb.append("id,");
+            sb.append("id");
             sb.append(',');
-            sb.append("Title,");
+            sb.append("Title");
             sb.append(',');
-            sb.append("Author,");
+            sb.append("Author");
             sb.append(',');
-            sb.append("Genre,");
+            sb.append("Genre");
             sb.append(',');
-            sb.append("Price,");
+            sb.append("Price");
             sb.append('\n');
             writer.write(sb.toString());
 
             for (BookDTO b: books) {
-                sb.append(b.getId().toString());
-                sb.append(',');
-                sb.append(b.getTitle());
-                sb.append(',');
-                sb.append(b.getAuthor());
-                sb.append(',');
-                sb.append(b.getGenre());
-                sb.append(',');
-                sb.append(Double.toString(b.getPrice()));
-                sb.append('\n');
-                writer.write(sb.toString());
+
+                StringBuilder lineSb = new StringBuilder();
+                lineSb.append(b.getId().toString());
+                lineSb.append(',');
+                lineSb.append(b.getTitle());
+                lineSb.append(',');
+                lineSb.append(b.getAuthor());
+                lineSb.append(',');
+                lineSb.append(b.getGenre());
+                lineSb.append(',');
+                lineSb.append(Double.toString(b.getPrice()));
+                lineSb.append('\n');
+                writer.write(lineSb.toString());
             }
 
         } catch (FileNotFoundException e) {

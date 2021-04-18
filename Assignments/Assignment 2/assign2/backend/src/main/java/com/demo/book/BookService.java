@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,8 +21,8 @@ public class BookService {
     private final BookMapper bookMapper;
 
     public Book findById(Long id) {
-        return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book not found: " + id));
+        Optional<BookDTO> result = bookRepository.findById(id).map(bookMapper :: toDto);
+        return bookMapper.toBook(result.orElse(null));
     }
 
     public List<BookDTO> findAll() {
@@ -47,15 +48,13 @@ public class BookService {
 
     public BookDTO create(BookDTO book) {
 
-//        Book bookToSave = bookMapper.toBook(book);
-//
-//       bookRepository.save(bookToSave);
-//       return book;
         return bookMapper.toDto(bookRepository.save(bookMapper.toBook(book)));
     }
 
     public BookDTO edit(BookDTO book) {
+
         Book actBook = findById(book.getId());
+
         actBook.setTitle(book.getTitle());
         actBook.setAuthor(book.getAuthor());
         actBook.setGenre(book.getGenre());
@@ -77,17 +76,10 @@ public class BookService {
 
     public List<BookDTO> filter (String description){
         List<BookDTO> all = bookRepository.findAll().stream()
+                .filter(book -> (book.getTitle().matches(description) || book.getGenre().matches(description) || book.getAuthor().matches(description)))
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
-
-        List<BookDTO> result = new ArrayList<>();
-
-        for (BookDTO b : all) {
-            if (b.getGenre().equals(description) || b.getTitle().equals(description) || b.getAuthor().equals(description)) {
-                result.add(b);
-            }
-        }
-        return result;
+        return all;
     }
 
     public BookDTO sell(BookDTO book, Long nr) {

@@ -51,7 +51,7 @@ class BookControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void allItems() throws Exception {
+    void allBooks() throws Exception {
         List<BookDTO> books = TestCreationFactory.listOf(Book.class);
         when(bookService.findAll()).thenReturn(books);
 
@@ -100,9 +100,10 @@ class BookControllerTest extends BaseControllerTest {
         BookDTO reqBook = BookDTO.builder()
                 .id(randomLong())
                 .title(randomString())
-                .quantity(Long.parseLong(randomString()))
+                .quantity(randomLong())
                 .build();
 
+        bookService.create(reqBook);
         when(bookService.edit(reqBook)).thenReturn(reqBook);
 
         ResultActions result = performPutWithRequestBody(BOOK, reqBook);

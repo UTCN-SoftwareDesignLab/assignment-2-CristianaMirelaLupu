@@ -5,8 +5,8 @@ import com.demo.book.model.Book;
 import com.demo.book.model.dto.BookDTO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
-import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.design.*;
+import net.sf.jasperreports.engine.type.HorizontalTextAlignEnum;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -36,8 +36,6 @@ public class PdfReportService implements ReportService {
         JRBeanCollectionDataSource bookCollectionDataSource =
                 new JRBeanCollectionDataSource(books);
 
-        parameter.put("bookDataSource", bookCollectionDataSource);
-
         parameter.put("title", new String("Books out of stock"));
 
         JasperReport jasperDesign = null;
@@ -45,12 +43,11 @@ public class PdfReportService implements ReportService {
             jasperDesign = JasperCompileManager.compileReport(getDesign());
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperDesign, parameter,
-                    new JREmptyDataSource());
+                    bookCollectionDataSource);
 
         File file = new File(FILE_NAME);
-        OutputStream outputSteam = null;
 
-        outputSteam = new FileOutputStream(file);
+            OutputStream outputSteam = new FileOutputStream(file);
 
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
         } catch (JRException | FileNotFoundException e) {
@@ -75,14 +72,66 @@ public class PdfReportService implements ReportService {
         JRDesignStyle mystyle = new JRDesignStyle();
         mystyle.setName("mystyle");
         mystyle.setDefault(true);
-        mystyle.setFontName("DejaVu Sans");
         mystyle.setFontSize(22f);
         mystyle.setPdfFontName("Helvetica");
         mystyle.setPdfEncoding("UTF-8");
         jasDes.addStyle(mystyle);
 
-        return jasDes;
+        // Fields
+        JRDesignField field1 = new JRDesignField();
+        field1.setName("title");
+        field1.setValueClass(String.class);
+        jasDes.addField(field1);
 
+        JRDesignField field2 = new JRDesignField();
+        field2.setName("author");
+        field2.setValueClass(String.class);
+        jasDes.addField(field2);
+
+        // Title
+        JRDesignBand titleBand = new JRDesignBand();
+        titleBand.setHeight(50);
+
+        JRDesignStaticText titleText = new JRDesignStaticText();
+        titleText.setText("Books out of stock");
+        titleText.setX(0);
+        titleText.setY(10);
+        titleText.setWidth(515);
+        titleText.setHeight(30);
+        titleText.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
+        titleText.setFontSize(22f);
+        titleBand.addElement(titleText);
+        jasDes.setTitle(titleBand);
+
+        // Detail
+        JRDesignBand detailBand = new JRDesignBand();
+        detailBand.setHeight(60);
+
+        JRDesignTextField tf1 = new JRDesignTextField();
+        tf1.setBlankWhenNull(true);
+        tf1.setX(0);
+        tf1.setY(10);
+        tf1.setWidth(200);
+        tf1.setHeight(30);
+        tf1.setHorizontalTextAlign(HorizontalTextAlignEnum.LEFT);
+        tf1.setStyle(mystyle);
+        tf1.setExpression(new JRDesignExpression("$F{title}"));
+        detailBand.addElement(tf1);
+
+        JRDesignTextField tf2 = new JRDesignTextField();
+        tf2.setBlankWhenNull(true);
+        tf2.setX(200);
+        tf2.setY(10);
+        tf2.setWidth(200);
+        tf2.setHeight(30);
+        tf2.setHorizontalTextAlign(HorizontalTextAlignEnum.LEFT);
+        tf2.setStyle(mystyle);
+        tf2.setExpression(new JRDesignExpression("$F{author}"));
+        detailBand.addElement(tf2);
+
+        ((JRDesignSection) jasDes.getDetailSection()).addBand(detailBand);
+
+        return jasDes;
     }
 
     @Override

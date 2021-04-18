@@ -30,7 +30,7 @@ public class BookController {
         return bookService.create(book);
     }
 
-    @PatchMapping
+    @PutMapping
     public BookDTO edit(@RequestBody BookDTO book) {
         return bookService.edit(book);
     }
@@ -38,7 +38,7 @@ public class BookController {
     @DeleteMapping
     public void deleteAll() { bookService.deleteAll(); }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(UrlMapping.ID)
     public void deleteById(@PathVariable String id) {
         bookService.deleteById(Long.parseLong(id));}
 

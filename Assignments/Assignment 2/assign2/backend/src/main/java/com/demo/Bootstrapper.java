@@ -29,6 +29,8 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
 
     private final BookRepository bookRepository;
 
+    private final BookService bookService;
+
     @Value("${app.bootstrap}")
     private Boolean bootstrap;
 
@@ -46,19 +48,59 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
                 );
             }
             authService.register(SignupRequest.builder()
-                    .email("alex@email.com")
-                    .username("alex")
-                    .password("WooHoo1!")
+                    .email("cristiana.wlf@gmail.com")
+                    .username("cristiana_wlf")
+                    .password("Aleluia123!")
                     .roles(Set.of("ADMIN"))
                     .build());
 
             authService.register(SignupRequest.builder()
-                    .email("alex1@email.com")
-                    .username("alex1")
-                    .password("WooHoo1!")
+                    .email("cristiana.wlf@yahoo.com")
+                    .username("cristiana_wolf")
+                    .password("Aleluia123!")
                     .roles(Set.of("EMPLOYEE"))
                     .build());
         }
+
+        bookService.create(BookDTO.builder()
+                .title("Ana Karenina")
+                .author("Lev Tolstoi")
+                .genre("novel")
+                .quantity(67L)
+                .price((float) 23.45)
+                .build());
+
+        bookService.create(BookDTO.builder()
+                .title("Quo Vadis")
+                .author("Henryk Sienkiewicz")
+                .genre("Nobel Prices")
+                .quantity(6L)
+                .price((float) 234.5)
+                .build());
+
+        bookService.create(BookDTO.builder()
+                .title("The Brothers Karamazov")
+                .author("Feodor Dostoievski")
+                .genre("russian")
+                .quantity(6L)
+                .price((float) 234.5)
+                .build());
+
+        bookService.create(BookDTO.builder()
+                .title("The Adolescent")
+                .author("Feodor Dostoievski")
+                .genre("russian")
+                .quantity(8L)
+                .price((float) 34.5)
+                .build());
+
+        bookService.create(BookDTO.builder()
+                .title("Gone with the wind")
+                .author("Margaret Mitchell")
+                .genre("novel")
+                .quantity(0L)
+                .price((float) 98.5)
+                .build());
 
     }
 }

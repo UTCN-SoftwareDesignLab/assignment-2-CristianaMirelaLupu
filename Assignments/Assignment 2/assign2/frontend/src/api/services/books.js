@@ -16,7 +16,7 @@ export default {
     );
   },
   edit(book) {
-    return HTTP.patch(BASE_URL + "/book", book, { headers: authHeader() }).then(
+    return HTTP.put(BASE_URL + "/book", book, { headers: authHeader() }).then(
       (response) => {
         return response.data;
       }

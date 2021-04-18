@@ -1,5 +1,6 @@
 package com.demo.user;
 
+import com.demo.UrlMapping;
 import com.demo.user.dto.UserListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,6 @@ public class UserController {
     @DeleteMapping
     public void deleteAll() { userService.deleteAll(); }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(UrlMapping.ID)
     public void deleteById(@PathVariable String id) { userService.deleteById(Long.parseLong(id));}
 }
