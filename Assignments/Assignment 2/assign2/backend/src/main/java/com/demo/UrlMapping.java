@@ -14,6 +14,6 @@ public class UrlMapping {
 
     public static final String BOOK =  API_PATH + "/book";
     public static final String AMOUNT = "/{amount}";
-
+    public static final String DESCRIPTION = "/{description}";
 
 }
