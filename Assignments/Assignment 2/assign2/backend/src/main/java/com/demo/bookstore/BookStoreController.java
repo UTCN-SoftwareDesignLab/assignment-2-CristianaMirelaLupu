@@ -17,7 +17,7 @@ public class BookStoreController {
 
     private final BookService bookService;
 
-    @GetMapping
+    @GetMapping(UrlMapping.DESCRIPTION)
     public List<BookDTO> search (@RequestParam @NotNull String description) {
 
         return bookService.filter(description);
