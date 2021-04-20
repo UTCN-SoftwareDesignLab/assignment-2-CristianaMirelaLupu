@@ -29,7 +29,6 @@
 <script>
 import api from "../api";
 import BookstoreDialog from "../components/BookstoreDialog";
-//import router from "@/router";
 
 export default {
   name: "BookStore",

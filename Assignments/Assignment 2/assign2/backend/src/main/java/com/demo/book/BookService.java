@@ -2,6 +2,7 @@ package com.demo.book;
 
 import com.demo.book.model.dto.BookDTO;
 import com.demo.book.model.Book;
+import com.demo.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,10 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    public Book findById(Long id) {
-        Optional<BookDTO> result = bookRepository.findById(id).map(bookMapper :: toDto);
-        return bookMapper.toBook(result.orElse(null));
+    Book findById(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found: " + id));
     }
-
     public List<BookDTO> findAll() {
         return bookRepository.findAll().stream()
                 .map(bookMapper::toDto)
@@ -75,11 +75,9 @@ public class BookService {
     }
 
     public List<BookDTO> filter (String description){
-        List<BookDTO> all = bookRepository.findAll().stream()
-                .filter(book -> (book.getTitle().matches(description) || book.getGenre().matches(description) || book.getAuthor().matches(description)))
+        return bookRepository.filter(description).stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
-        return all;
     }
 
     public BookDTO sell(BookDTO book, Long nr) {
